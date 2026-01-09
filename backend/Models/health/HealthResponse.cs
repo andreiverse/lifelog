@@ -5,7 +5,7 @@ public class HealthResponse
     
     public HealthResponse(bool isOk)
     {
-        this.Timestamp = DateTime.Now;
-        this.Ok = isOk;
+        Timestamp = DateTime.Now;
+        Ok = isOk;
     }
 }

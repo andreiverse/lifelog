@@ -6,18 +6,18 @@ namespace Lifelog.Services
 
     public class UserContext
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserContext(IHttpContextAccessor httpContextAccessor)
         {
-            this.httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private static List<string> RequiredClaims = [ ClaimTypes.NameIdentifier, "name", "preferred_username" ] ;
 
         public SecurityInfo? GetUserSecurityInfo()
         {
-            var user = this.httpContextAccessor.HttpContext?.User;
+            var user = _httpContextAccessor.HttpContext?.User;
 
             if (user?.Identity == null || !user.Identity.IsAuthenticated)
                 throw new UnauthorizedAccessException();
