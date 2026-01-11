@@ -1,0 +1,1 @@
+export type Error = Record<string, any>
