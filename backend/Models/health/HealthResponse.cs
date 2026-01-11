@@ -1,11 +1,5 @@
-public class HealthResponse
+public class HealthResponse(bool isOk)
 {
-    public DateTime Timestamp { get; } 
-    public bool Ok { get; }
-    
-    public HealthResponse(bool isOk)
-    {
-        Timestamp = DateTime.Now;
-        Ok = isOk;
-    }
+    public DateTime Timestamp { get; } = DateTime.Now;
+    public bool Ok { get; } = isOk;
 }

@@ -1,16 +1,33 @@
-using Lifelog.Services;
+using backend.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.OpenApi;
 
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddDbContext<ApplicationDbContext>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") 
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddProblemDetails();
+
+
+builder.Services.AddScoped<ActivityService>();
 builder.Services.AddScoped<UserContext>();
+builder.Services.AddScoped<GoalService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -51,8 +68,17 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    options.OperationFilter<ProblemDetailsOperationFilter>();
+});
+
+
 var app = builder.Build();
 
+app.UseCors("FrontendPolicy");
 app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
@@ -64,7 +90,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 if (app.Environment.IsDevelopment())
-    app.MapOpenApi();
+    app.UseSwagger();
 
 
 app.Run();

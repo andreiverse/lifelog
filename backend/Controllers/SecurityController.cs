@@ -1,11 +1,11 @@
-using Lifelog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-namespace Lifelog.Controllers
+using backend.Services;
+
+namespace backend.Controllers
 {
     [ApiController]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [Route("api/security")]
     public class SecurityController : ControllerBase
     {
@@ -31,9 +31,6 @@ namespace Lifelog.Controllers
         public ActionResult<SecurityInfo> Get()
         {
             var user = _userContext.GetUserSecurityInfo();
-        
-            if (user == null)
-                return Unauthorized(); 
 
             return user;
         }

@@ -1,21 +1,15 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Lifelog.Services
+namespace backend.Services
 {
 
-    public class UserContext
+    public class UserContext(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public UserContext(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private static List<string> RequiredClaims = [ ClaimTypes.NameIdentifier, "name", "preferred_username" ] ;
 
-        public SecurityInfo? GetUserSecurityInfo()
+        public SecurityInfo GetUserSecurityInfo()
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
