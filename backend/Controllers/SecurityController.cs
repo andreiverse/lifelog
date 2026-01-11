@@ -7,14 +7,9 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/security")]
-    public class SecurityController : ControllerBase
+    public class SecurityController(UserContext userContext) : ControllerBase
     {
-        private readonly UserContext _userContext;
-
-        public SecurityController(UserContext userContext)
-        {
-            _userContext = userContext;
-        }
+        private readonly UserContext _userContext = userContext;
 
         [HttpGet("login")]
         [AllowAnonymous]

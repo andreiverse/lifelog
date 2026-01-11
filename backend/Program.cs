@@ -24,7 +24,6 @@ builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddProblemDetails();
 
-
 builder.Services.AddScoped<ActivityService>();
 builder.Services.AddScoped<UserContext>();
 builder.Services.AddScoped<GoalService>();
